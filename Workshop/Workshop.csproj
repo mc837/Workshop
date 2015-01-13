@@ -39,10 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Circle.cs" />
+    <Compile Include="Probability %28day2%29\Probability.cs" />
+    <Compile Include="Shapes %28day1%29\Circle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rectangle.cs" />
-    <Compile Include="Square.cs" />
+    <Compile Include="Shapes %28day1%29\Rectangle.cs" />
+    <Compile Include="Shapes %28day1%29\Square.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
