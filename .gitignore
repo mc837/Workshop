@@ -1,0 +1,61 @@
+# Resharper files to ignore
+_ReSharper.*
+*6.0.ReSharper.user
+*6.1.ReSharper.user
+*.DotSettings.user
+*.DotSettings
+
+obj/
+bin/
+dist/
+logs/
+websource/
+*.log
+*.suo
+*.user
+reports/
+artifacts/
+TestResults/
+*.log.20*
+TestResult.xml
+TestResult.txt
+*.webtestresult
+CTM.Energy.Version/
+src/**/sql/
+*.dbmdl
+src/.sass-cache/
+src/**/*.csproj.user
+src/**/*.dbproj.user
+src/**/*.dbproj.schemaview
+src/Deploy/
+src/CTM.Energy.Web/*.publish.xml
+src/CTM.Energy.Stub.EhlApi/*.publish.xml
+src/**/temp.*.config
+src/**/Visual Studio 2010/*
+src/CacheBusting/
+src/Visual Studio 2010/*
+Visual Studio 2010/*
+*.ctm.min.*
+minified/
+Deployment/
+.sass-cache/
+tools/NUnit/result.xml
+build/coverage
+App_Data/
+
+#-- This file is generated during build
+src/ApplicationVersionInfo.cs
+
+#-- CSS is generated
+*.css
+*.map
+
+# -- TIPS --
+# To ignore files at certain level. eg.
+# src/**/bin/
+# src/**/**/bin/
+
+*.user
+src/CTM.Energy.Specs/FailingScreenshot/*
+src/CTM.Energy.Specs/FailingScreenshot/**/*
+**/*/*.user

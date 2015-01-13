@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workshop", "Workshop\Workshop.csproj", "{00E3E5DE-BA7F-46BC-B123-6A3A46B7CD26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkshopTests", "WorkshopTests\WorkshopTests.csproj", "{4D5BF3BF-F41A-4F08-B5FD-55174F5C45C3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00E3E5DE-BA7F-46BC-B123-6A3A46B7CD26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00E3E5DE-BA7F-46BC-B123-6A3A46B7CD26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00E3E5DE-BA7F-46BC-B123-6A3A46B7CD26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00E3E5DE-BA7F-46BC-B123-6A3A46B7CD26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D5BF3BF-F41A-4F08-B5FD-55174F5C45C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D5BF3BF-F41A-4F08-B5FD-55174F5C45C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D5BF3BF-F41A-4F08-B5FD-55174F5C45C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D5BF3BF-F41A-4F08-B5FD-55174F5C45C3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
