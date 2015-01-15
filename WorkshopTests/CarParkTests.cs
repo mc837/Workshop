@@ -1,83 +1,142 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
-using WorkshopTests.Annotations;
 
 namespace WorkshopTests
 {
     class CarParkTests
     {
         [Test]
-        public void Should_ReturnFull_When_ACustomerWantsToParkInAFullCar()
+        public void Should_ReturnNull_When_ACustomerWantsToParkInAFullCarpark()
         {
             var carpark = new CarPark(0);
-            var attendant = new Attendant(carpark);
-
             var car = new Car { Reg = "AF53 NEU" };
-            attendant.ParkCar(car);
+            var customer = new Customer(carpark, car);
+            
+            var answer =customer.AskToPark();
 
-            var result = carpark.SpacesLeft();
-            Assert.That(result, Is.EqualTo("Full"));
+            Assert.That(answer, Is.EqualTo(null));
         }
 
         [Test]
-        public void Should_ReturnNotFull_When_CarparkHasSpacesLeft()
+        public void Should_ReturnTicketWithId_When_CarparkHasSpacesLeft()
+        {
+            var carpark = new CarPark(1);
+
+            var car = new Car { Reg = "AF53 NEU" };
+            var customer = new Customer(carpark, car);
+            var expectedTicket = new Ticket(0);
+            
+            var result = customer.AskToPark();
+            
+            Assert.That(result, Is.EqualTo(expectedTicket));
+        }
+
+        [Test]
+        public void Should_ReturnTicketWithId1_When_CarparkHasSpacesLeft()
         {
             var carpark = new CarPark(2);
 
+            var car1 = new Car { Reg = "AF53 NEU" };
+            var car2 = new Car { Reg = "AF53 NEU" };
+            var customer1 = new Customer(carpark, car1);
+            var customer2 = new Customer(carpark, car2);
+            var expectedTicket = new Ticket(1);
+
+            customer1.AskToPark();
+            var result = customer2.AskToPark();
+
+            Assert.That(result, Is.EqualTo(expectedTicket));
+        }
+
+
+        [Test]
+        public void Attendant_Should_ParkCarInSpace1_When_ACarCanBeParked()
+        {
+            var carpark = new CarPark(1);
             var attendant = new Attendant(carpark);
             var car = new Car { Reg = "AF53 NEU" };
             attendant.ParkCar(car);
+            var result = carpark.CarSpaces[0];
 
-            var result = carpark.SpacesLeft();
-            Assert.That(result, Is.EqualTo("Not Full"));
+            Assert.That(result.Equals(car));
         }
 
         [Test]
-        public void Should_ReturnATicketWithSpaceIdOF1_When_ACarCanBeParked()
+        public void Attendant_Should_RetreiveCorrectCar_When_GivenATicket()
         {
-            var carpark = new CarPark(2);
+            //Park car
+            var carpark = new CarPark(3);
             var attendant = new Attendant(carpark);
-            var car = new Car { Reg = "AF53 NEU" };
-            attendant.ParkCar(car);
-            var expectedResult = new Ticket(1);
+            var car1 = new Car { Reg = "AF52 NEU" };
+            var car2 = new Car { Reg = "AF53 NEU" };
+            var car3 = new Car { Reg = "AF54 NEU" };
+            attendant.ParkCar(car1);
+            attendant.ParkCar(car2);
+            attendant.ParkCar(car3);
 
-            var result = attendant.ParkCar(car);
+            //Retrieve car
+            var ticket = new Ticket(1);
+            var retrievedCar = attendant.RetrieveCar(ticket);
 
-            Assert.True(result.Equals(expectedResult));
+            Assert.True(retrievedCar.Equals(car2));
         }
 
         [Test]
-        public void Should_NotReturnATicket_When_ACarCanNotBeParked()
+        public void Attendant_Can_ParkACar_When_ASpaceHasBeenVacated()
         {
-            var carpark = new CarPark(0);
+            //Park car
+            var carpark = new CarPark(3);
             var attendant = new Attendant(carpark);
-            var car = new Car { Reg = "AF53 NEU" };
-            var result = attendant.ParkCar(car);
+            var car1 = new Car { Reg = "AF51 NEU" };
+            var car2 = new Car { Reg = "AF52 NEU" };
+            var car3 = new Car { Reg = "AF53 NEU" };
+            attendant.ParkCar(car1);
+            attendant.ParkCar(car2);
+            attendant.ParkCar(car3);
 
-            Assert.That(result, Is.EqualTo(null));
+            //Retrieve car
+            var ticket = new Ticket(1);
+            var retrievedCar = attendant.RetrieveCar(ticket);
+
+            Assert.True(retrievedCar.Equals(car2));
+
+            //Park next car
+            var car4 = new Car { Reg = "AF54 NEU" };
+            attendant.ParkCar(car4);
+
+            Assert.True(carpark.CarSpaces[1].Equals(car4));
+
+        }
+    }
+
+    internal class Customer
+    {
+        private readonly CarPark _carpark;
+        private readonly Car _car;
+
+        public Customer(CarPark carpark, Car car)
+        {
+            _carpark = carpark;
+            _car = car;
         }
 
-        [Test]
-        public void Should_ParkCarInSpace1_When_ACarCanBeParked()
+        public Ticket AskToPark()
         {
-            var carpark = new CarPark(2);
-            var parkingSpace = new Space { Id = 0 };
-            var attendant = new Attendant(carpark);
-            var car = new Car { Reg = "AF53 NEU" };
-            attendant.ParkCar(car);
-            var result = carpark.SpacesList[0];
-
-            Assert.True(result.Equals(parkingSpace));
+            return new Attendant(_carpark).ParkCar(_car);
         }
-
-
     }
 
     internal class Car
     {
-        public string Reg { get; set; }
-        public string Owner { get; set; }
+        public string Reg { private get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj.GetType() != typeof(Car)) return false;
+            var car = obj as Car;
+            return Reg.Equals(car.Reg);
+        }
     }
 
     internal class Attendant
@@ -94,28 +153,34 @@ namespace WorkshopTests
             var spaces = _carpark.SpacesLeft();
             if (spaces == "Not Full")
             {
-                _carpark.AddCarToSpace(car);
-                return new Ticket(1);
+                var ticketId = _carpark.AddCarToSpace(car);
+                return new Ticket(ticketId);
             }
             _carpark.SpacesLeft();
             return null;
+        }
+
+        public Car RetrieveCar(Ticket ticket)
+        {
+            var car =_carpark.RetrieveFromSpace(ticket.SpaceId);
+            return car;
         }
     }
 
     internal class Ticket
     {
-        private readonly int _spaceId;
+        public readonly int SpaceId;
 
         public Ticket(int spaceId)
         {
-            _spaceId = spaceId;
+            SpaceId = spaceId;
         }
 
         public override bool Equals(object obj)
         {
             if (obj.GetType() != typeof(Ticket)) return false;
             var ticket = obj as Ticket;
-            return _spaceId.Equals(ticket._spaceId);
+            return SpaceId.Equals(ticket.SpaceId);
         }
     }
 
@@ -123,13 +188,17 @@ namespace WorkshopTests
     internal class CarPark
     {
         private int _spaces;
-        private int _index;
-        public List<Space> SpacesList { get; set; }
+        public readonly Dictionary<int, Car> CarSpaces = new Dictionary<int, Car>();
+        private int _nextAvailableSpaceId;
 
         public CarPark(int spaces)
         {
             _spaces = spaces;
-            SpacesList = new List<Space>();
+            
+            for (var i = 0; i < _spaces; i++)
+            {
+                CarSpaces.Add(i, null);
+            }
         }
 
         public string SpacesLeft()
@@ -137,24 +206,31 @@ namespace WorkshopTests
             return _spaces <= 0 ? "Full" : "Not Full";
         }
 
-        public void AddCarToSpace(Car car)
+        public int AddCarToSpace(Car car)
         {
-            SpacesList.Add(new Space{Id = _index, CarReg = car.Reg});
+            CarSpaces[_nextAvailableSpaceId] = car;
             _spaces -= 1;
-            _index ++;
+            var ticketNo = _nextAvailableSpaceId;
+            FindNextAvailableSpace();
+            return ticketNo;
         }
-    }
 
-    internal class Space
-    {
-        public int Id { get; set; }
-        public string CarReg  { get; set; }
-
-        public override bool Equals(object obj)
+        private void FindNextAvailableSpace()
         {
-            if (obj.GetType() != typeof(Space)) return false;
-            var space = obj as Space;
-            return Id.Equals(space.Id);
+            if (_spaces != 0)
+            {
+                _nextAvailableSpaceId = CarSpaces.First(s => s.Value == null).Key;
+            }
+        }
+
+        public Car RetrieveFromSpace(int carSpaceId)
+        {
+            Car car = CarSpaces[carSpaceId];
+            CarSpaces[carSpaceId] = null;
+            _spaces = + 1;
+            FindNextAvailableSpace();
+            
+            return car;
         }
     }
 }
