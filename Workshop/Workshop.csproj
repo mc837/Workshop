@@ -39,6 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Golf %28day3%29\GroupEfficiently.cs" />
+    <Compile Include="Golf %28day3%29\GroupMaximiser.cs" />
+    <Compile Include="Golf %28day3%29\GroupNonConsecutive.cs" />
+    <Compile Include="Golf %28day3%29\IOrganiseGroups.cs" />
+    <Compile Include="Golf %28day3%29\PlayingGroup.cs" />
+    <Compile Include="Golf %28day3%29\Que.cs" />
     <Compile Include="Probability %28day2%29\Probability.cs" />
     <Compile Include="Shapes %28day1%29\Circle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -42,7 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GolfTests.cs" />
+    <Compile Include="CarParkTests.cs" />
+    <Compile Include="GolfTests %28day3%29\GolfTests.cs" />
     <Compile Include="ProbabilityTests %28day2%29\ProbabilityTests.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ShapesTests %28day1%29\CircleTests.cs" />
