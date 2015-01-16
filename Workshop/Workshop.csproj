@@ -39,6 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CarPark %28day4%29\Attendant.cs" />
+    <Compile Include="CarPark %28day4%29\Car.cs" />
+    <Compile Include="CarPark %28day4%29\CarPark.cs" />
+    <Compile Include="CarPark %28day4%29\Customer.cs" />
     <Compile Include="Golf %28day3%29\GroupEfficiently.cs" />
     <Compile Include="Golf %28day3%29\GroupMaximiser.cs" />
     <Compile Include="Golf %28day3%29\GroupNonConsecutive.cs" />
@@ -51,6 +55,7 @@
     <Compile Include="Shapes %28day1%29\Rectangle.cs" />
     <Compile Include="Shapes %28day1%29\Square.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
