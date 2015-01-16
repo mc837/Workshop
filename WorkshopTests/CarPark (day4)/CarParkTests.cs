@@ -106,8 +106,26 @@ namespace WorkshopTests
             attendant.ParkCar(car4);
 
             Assert.True(carpark.CarSpaces[1].Equals(car4));
-
         }
+
+        [Test]
+        public void Customer_Should_RecieveCorrectCar_When_ReturningTicketToAttendant()
+        {
+            var carpark = new CarPark(2);
+
+            var car1 = new Car { Reg = "AF53 NEU" };
+            var car2 = new Car { Reg = "AF54 NEU" };
+            var customer1 = new Customer(carpark, car1);
+            var customer2 = new Customer(carpark, car2);
+            customer1.AskToPark();
+            customer2.AskToPark();
+            var ticket = new Ticket(0);
+
+            var returnedCar = customer1.AskForCar(ticket);
+
+            Assert.True(returnedCar.Equals(car1));
+        }
+
     }
 
     internal class Customer
@@ -124,6 +142,11 @@ namespace WorkshopTests
         public Ticket AskToPark()
         {
             return new Attendant(_carpark).ParkCar(_car);
+        }
+
+        public Car AskForCar(Ticket ticket)
+        {
+            return new Attendant(_carpark).RetrieveCar(ticket);
         }
     }
 
@@ -225,7 +248,7 @@ namespace WorkshopTests
 
         public Car RetrieveFromSpace(int carSpaceId)
         {
-            Car car = CarSpaces[carSpaceId];
+            var car = CarSpaces[carSpaceId];
             CarSpaces[carSpaceId] = null;
             _spaces = + 1;
             FindNextAvailableSpace();
